@@ -27,6 +27,8 @@ import urllib.parse
 import ssl
 import time
 
+import magic
+
 _VERSION = "0.0.11"
 
 # Use chardet if it's there, but don't depend on it
@@ -456,10 +458,8 @@ enable automatic encoding detection.""")
             mimetype, encoding = mimetypes.guess_type(gi.path)
             if mimetype is None:
                 # No idea what this is, try harder by looking at the
-                # magic number using file(1)
-                out = subprocess.check_output(
-                    shlex.split("file --brief --mime-type %s" % self.tmp_filename))
-                mimetype = out.decode("UTF-8").strip()
+                # magic number using libmagic (like file(1))
+                mimetype = magic.from_file(self.tmp_filename, mime=True)
             # Don't permit file extensions to completely override the
             # vaguer imagetypes
             if gi.itemtype == "I" and not mimetype.startswith("image"):

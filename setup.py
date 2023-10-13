@@ -19,5 +19,7 @@ setup(
     entry_points={
         "console_scripts": ["vf1=vf1:main"]
     },
-    install_requires=[],
+    install_requires=[
+        'python-magic',
+    ],
 )
