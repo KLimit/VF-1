@@ -15,6 +15,7 @@ import fnmatch
 import io
 import mimetypes
 import os.path
+import pathlib
 import random
 import shlex
 import shutil
@@ -374,7 +375,7 @@ enable automatic encoding detection.""")
         tmpf = tempfile.NamedTemporaryFile(mode, encoding=encoding, delete=False)
         size = tmpf.write(response)
         tmpf.close()
-        self.tmp_filename = tmpf.name
+        self.tmp_filename = pathlib.Path(tmpf.name).as_posix()
         self._debug("Wrote %d byte response to %s." % (size, self.tmp_filename))
 
         # Pass file to handler, unless we were asked not to
